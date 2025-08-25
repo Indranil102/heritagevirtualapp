@@ -97,23 +97,46 @@ h1, h2, h3 {
 st.markdown(dark_css, unsafe_allow_html=True)
 
 # ===================== DATABASE CONFIG =====================
-MONGODB_USERNAME = os.getenv("MONGODB_USERNAME")
-MONGODB_PASSWORD = os.getenv("MONGODB_PASSWORD")
-MONGODB_CLUSTER = os.getenv("MONGODB_CLUSTER")
-MONGODB_DATABASE = os.getenv("MONGODB_DATABASE")
+MONGODB_USERNAME = os.getenv("MONGODB_USERNAME", "indranilsamanta2003")
+MONGODB_PASSWORD = os.getenv("MONGODB_PASSWORD", "indu94070@2003")
+MONGODB_CLUSTER = os.getenv("MONGODB_CLUSTER", "clusterheritage.aedeqma.mongodb.net")
+MONGODB_DATABASE = os.getenv("MONGODB_DATABASE", "heritage_db")
 
 @st.cache_resource
 def init_connection():
     try:
         username = quote_plus(MONGODB_USERNAME)
         password = quote_plus(MONGODB_PASSWORD)
-        connection_string = f"mongodb+srv://{username}:{password}@{MONGODB_CLUSTER}/{MONGODB_DATABASE}?retryWrites=true&w=majority&appName=ClusterHeritage"
-        client = pymongo.MongoClient(connection_string, tlsCAFile=certifi.where())
+        
+        # Updated connection string with proper SSL configuration
+        connection_string = f"mongodb+srv://{username}:{password}@{MONGODB_CLUSTER}/{MONGODB_DATABASE}?retryWrites=true&w=majority&appName=Clusterheritage"
+        
+        # Connect with enhanced SSL configuration
+        client = pymongo.MongoClient(
+            connection_string,
+            tls=True,
+            tlsCAFile=certifi.where(),
+            tlsAllowInvalidCertificates=False,
+            connectTimeoutMS=30000,
+            socketTimeoutMS=30000,
+            serverSelectionTimeoutMS=30000,
+            retryWrites=True
+        )
+        
+        # Test the connection with a simple command
         client.admin.command('ping')
         st.sidebar.success("✅ Connected to MongoDB successfully!")
         return client
     except Exception as e:
         st.sidebar.error(f"❌ MongoDB connection failed: {str(e)}")
+        # Provide troubleshooting tips
+        st.sidebar.info("""
+        💡 Troubleshooting Tips:
+        1. Check if your IP is whitelisted in MongoDB Atlas
+        2. Verify your database user has proper permissions
+        3. Ensure your credentials are correct
+        4. Try connecting with MongoDB Compass to test your connection
+        """)
         return None
 
 client = init_connection()
@@ -122,10 +145,12 @@ if client:
     users_collection = db.users
 else:
     class DummyCollection:
-        def find_one(self, *args, **kwargs): return None
-        def insert_one(self, *args, **kwargs): return None
+        def find_one(self, *args, **kwargs): 
+            return None
+        def insert_one(self, *args, **kwargs): 
+            return {"inserted_id": "demo_id"}
     users_collection = DummyCollection()
-    st.warning("Running in demo mode without database connection.")
+    st.warning("⚠️ Running in demo mode without database connection. Some features may be limited.")
 
 # ===================== AUTH =====================
 if "authenticated" not in st.session_state:
@@ -134,12 +159,16 @@ if "authenticated" not in st.session_state:
 
 def login_user(username, password):
     if not client:
-        return True
+        # Demo mode - accept any non-empty credentials
+        return bool(username and password)
     user = users_collection.find_one({"username": username, "password": password})
     return user is not None
 
 def signup_user(username, password, email):
     if not client:
+        # Demo mode - always succeed for non-empty credentials
+        if not username or not password or not email:
+            return False, "All fields are required"
         return True, "User created successfully! (Demo mode)"
     if users_collection.find_one({"username": username}):
         return False, "Username already exists"
@@ -195,11 +224,11 @@ else:
         st.header("✨ Featured Heritage Sites")
         col1, col2, col3 = st.columns(3)
         with col1:
-            st.markdown("<div class='card'><h3>Taj Mahal</h3><p>India’s iconic symbol of love and Mughal architecture.</p></div>", unsafe_allow_html=True)
+            st.markdown("<div class='card'><h3>Taj Mahal</h3><p>India's iconic symbol of love and Mughal architecture.</p></div>", unsafe_allow_html=True)
         with col2:
             st.markdown("<div class='card'><h3>Great Pyramids</h3><p>Ancient wonders of Egypt standing tall for millennia.</p></div>", unsafe_allow_html=True)
         with col3:
-            st.markdown("<div class='card'><h3>Colosseum</h3><p>Rome’s grand amphitheater showcasing gladiatorial glory.</p></div>", unsafe_allow_html=True)
+            st.markdown("<div class='card'><h3>Colosseum</h3><p>Rome's grand amphitheater showcasing gladiatorial glory.</p></div>", unsafe_allow_html=True)
 
     with tab_search:
         st.header("🔍 Search Heritage")
