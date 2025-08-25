@@ -1,0 +1,11 @@
+# Core
+streamlit
+pymongo
+dnspython # for connecting to MongoDB Atlas
+
+# Backend/AI (will be used in Phase 2)
+fastapi
+uvicorn
+langchain
+langchain-google-genai
+python-multipart
