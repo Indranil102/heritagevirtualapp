@@ -97,10 +97,10 @@ h1, h2, h3 {
 st.markdown(dark_css, unsafe_allow_html=True)
 
 # ===================== DATABASE CONFIG =====================
-MONGODB_USERNAME = os.getenv("MONGODB_USERNAME", "indranilsamanta2003")
-MONGODB_PASSWORD = os.getenv("MONGODB_PASSWORD", "indu94070@2003")
-MONGODB_CLUSTER = os.getenv("MONGODB_CLUSTER", "clusterheritage.aedeqma.mongodb.net")
-MONGODB_DATABASE = os.getenv("MONGODB_DATABASE", "heritage_db")
+MONGODB_USERNAME = os.getenv("MONGODB_USERNAME")
+MONGODB_PASSWORD = os.getenv("MONGODB_PASSWORD")
+MONGODB_CLUSTER = os.getenv("MONGODB_CLUSTER" )
+MONGODB_DATABASE = os.getenv("MONGODB_DATABASE")
 
 @st.cache_resource
 def init_connection():
