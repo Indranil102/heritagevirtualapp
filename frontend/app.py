@@ -7,14 +7,14 @@ from urllib.parse import quote_plus
 import certifi
 import os
 
-# ===================== PAGE CONFIG =====================
+
 st.set_page_config(
     page_title="Heritage Virtual Guide",
     layout="wide",
     page_icon="🏛️"
 )
 
-# ===================== CUSTOM DARK CSS =====================
+
 dark_css = """
 <style>
 /* Background */
@@ -62,7 +62,7 @@ h1, h2, h3 {
     padding: 6px;
     background-color: #222;
     color: #f5f5f5;
-}
+} 
 .stTextInput>div>label {
     font-weight: bold;
     color: #f0c674;
@@ -108,10 +108,10 @@ def init_connection():
         username = quote_plus(MONGODB_USERNAME)
         password = quote_plus(MONGODB_PASSWORD)
         
-        # Updated connection string with proper SSL configuration
+        
         connection_string = f"mongodb+srv://{username}:{password}@{MONGODB_CLUSTER}/{MONGODB_DATABASE}?retryWrites=true&w=majority&appName=Clusterheritage"
         
-        # Connect with enhanced SSL configuration
+        
         client = pymongo.MongoClient(
             connection_string,
             tls=True,
@@ -123,16 +123,16 @@ def init_connection():
             retryWrites=True
         )
         
-        # Test the connection with a simple command
+        
         client.admin.command('ping')
         st.sidebar.success("✅ Connected to MongoDB successfully!")
         return client
     except Exception as e:
         st.sidebar.error(f"❌ MongoDB connection failed: {str(e)}")
-        # Provide troubleshooting tips
+        
         st.sidebar.info("""
         💡 Troubleshooting Tips:
-        1. Check if your IP is whitelisted in MongoDB Atlas
+        1. Check if your IP is whitel isted in MongoDB Atlas
         2. Verify your database user has proper permissions
         3. Ensure your credentials are correct
         4. Try connecting with MongoDB Compass to test your connection
@@ -157,16 +157,16 @@ if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
     st.session_state.username = None
 
-def login_user(username, password):
+def login_user(username:str, password:str):
     if not client:
-        # Demo mode - accept any non-empty credentials
+        
         return bool(username and password)
     user = users_collection.find_one({"username": username, "password": password})
     return user is not None
 
-def signup_user(username, password, email):
+def signup_user(username:str, password:str, email:str):
     if not client:
-        # Demo mode - always succeed for non-empty credentials
+        
         if not username or not password or not email:
             return False, "All fields are required"
         return True, "User created successfully! (Demo mode)"
@@ -175,7 +175,7 @@ def signup_user(username, password, email):
     users_collection.insert_one({"username": username, "password": password, "email": email})
     return True, "User created successfully!"
 
-# ===================== UI =====================
+
 if not st.session_state.authenticated:
     tab1, tab2 = st.tabs(["🔑 Login", "📝 Sign Up"])
 
