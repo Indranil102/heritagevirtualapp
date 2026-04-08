@@ -158,7 +158,7 @@ This hybrid pipeline improves recognition consistency and produces informative o
 **Indranil Samanta**
 
 * GitHub: [https://github.com/Indranil102](https://github.com/Indranil102)
-* LinkedIn: [https://linkedin.com/in/indranil](https://linkedin.com/in/indranil)
+* LinkedIn: [https://linkedin.com/in/indranil]([https://linkedin.com/in/indranil](https://www.linkedin.com/in/indranil-samanta-26558a253/))
 
 ---
 
