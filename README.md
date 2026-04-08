@@ -1,475 +1,167 @@
-# 🏛️ Heritage Virtual Guide
+# AI-Powered Heritage Site Virtual Guide
 
-A comprehensive web application that uses AI-powered image recognition and natural language processing to provide detailed information about heritage sites and monuments around the world. Upload an image or search by name to discover fascinating historical details, architectural information, and visitor guides.
+## Overview
 
-![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.104.1-green.svg)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.28.1-red.svg)
-![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-brightgreen.svg)
+The **AI-Powered Heritage Site Virtual Guide** is an intelligent computer vision and LLM-based application that identifies heritage landmarks from uploaded images and generates contextual historical descriptions. The system combines image classification techniques with large language model (LLM) response generation to provide users with meaningful cultural and informational insights about recognized locations.
 
----
-
-## 📋 Table of Contents
-
-- [Features](#-features)
-- [Tech Stack](#-tech-stack)
-- [Project Structure](#-project-structure)
-- [Installation](#-installation)
-- [Configuration](#-configuration)
-- [Running the Application](#-running-the-application)
-- [API Documentation](#-api-documentation)
-- [Usage Guide](#-usage-guide)
-- [Screenshots](#-screenshots)
-- [Contributing](#-contributing)
-- [License](#-license)
+This project demonstrates an end-to-end AI pipeline integrating computer vision, backend APIs, and language models for real-world interactive use.
 
 ---
 
-## ✨ Features
+## Key Features
 
-### 🔍 **Search Heritage Sites**
-- Search by monument name or location
-- Get comprehensive historical information
-- Learn about architectural styles and significance
-- Discover visitor information and travel tips
-
-### 🖼️ **Image Analysis**
-- Upload images of heritage sites
-- AI-powered image recognition identifies the monument
-- Detailed analysis including:
-  - Historical period and builder
-  - Architectural style
-  - Cultural significance
-  - Current status (UNESCO, conservation)
-  - Interesting facts
-  - Nearby attractions
-  - Best time to visit
-
-### 🌟 **Featured Sites**
-- Browse curated list of famous heritage sites
-- Get recommendations for exploration
-- Beautiful card-based UI
-
-### 👤 **User Authentication**
-- Secure login and signup system
-- User session management
-- Chat history tracking
-- MongoDB integration for user data
-
-### 🎨 **Modern UI/UX**
-- Dark theme with elegant styling
-- Responsive design
-- Smooth animations and transitions
-- Progress indicators for AI processing
+* Upload an image of a heritage site for automatic recognition
+* Computer vision-based landmark identification
+* LLM-powered contextual description generation
+* FastAPI backend for scalable inference
+* MongoDB database for structured data storage
+* REST API support for easy integration with frontend applications
 
 ---
 
-## 🛠️ Tech Stack
+## System Architecture
 
-### **Backend**
-- **FastAPI** - Modern, fast web framework for building APIs
-- **Uvicorn** - ASGI server for running FastAPI
-- **OpenRouter AI** - Unified API for multiple AI models (GPT-4, Claude, Gemini)
-- **MongoDB** - NoSQL database for user data and sessions
-- **Pillow (PIL)** - Image processing library
-- **Pydantic** - Data validation using Python type annotations
-- **Python-dotenv** - Environment variable management
+The workflow of the application follows these steps:
 
-### **Frontend**
-- **Streamlit** - Rapid web app development framework
-- **Requests** - HTTP library for API calls
-- **Pymongo** - MongoDB driver for Python
-
-### **AI Models Supported**
-- OpenAI GPT-4o, GPT-4 Turbo, GPT-4 Vision
-- Anthropic Claude 3 (Opus, Sonnet, Haiku)
-- Google Gemini Pro Vision
+1. User uploads an image through the interface
+2. Image preprocessing standardizes resolution and format
+3. Computer vision model extracts features and predicts the heritage site
+4. Prediction result is passed to an LLM pipeline
+5. LLM generates contextual historical and cultural information
+6. Response is returned via FastAPI endpoint
+7. Metadata is optionally stored in MongoDB for reuse and analytics
 
 ---
 
-## 📁 Project Structure
+## Tech Stack
+
+**Languages**
+
+* Python
+
+**Frameworks & Tools**
+
+* FastAPI
+* OpenCV
+* NumPy
+* MongoDB
+
+**AI Components**
+
+* Computer Vision Model for landmark classification
+* LLM integration for contextual description generation
+
+---
+
+## Project Structure
 
 ```
-Heritage-Site-Virtual-Guide/
+heritagevirtualapp/
 │
-├── backend/                    # FastAPI backend application
-│   ├── app/
-│   │   ├── core/               # Core configuration
-│   │   │   └── config.py       # Settings and environment variables
-│   │   ├── models/             # Pydantic models
-│   │   │   └── heritage.py     # Heritage site data models
-│   │   ├── routers/            # API routes
-│   │   │   └── heritage.py     # Heritage endpoints
-│   │   ├── services/           # Business logic
-│   │   │   ├── ai_service.py   # AI integration (OpenRouter)
-│   │   │   └── database.py     # MongoDB connection
-│   │   └── main.py             # FastAPI application entry point
-│   └── requirements.txt        # Backend dependencies
+├── app/
+│   ├── main.py
+│   ├── routes/
+│   ├── services/
+│   └── models/
 │
-├── frontend/                   # Streamlit frontend application
-│   ├── components/             # Reusable UI components
-│   │   ├── featured_cards.py  # Heritage site cards
-│   │   ├── image_upload.py    # Image upload component
-│   │   └── search_component.py # Search functionality
-│   ├── utils/                  # Utility functions
-│   │   ├── api_client.py      # Backend API client
-│   │   └── session_state.py    # Session management
-│   └── app.py                  # Main Streamlit application
-│
-├── requirements.txt            # Frontend dependencies
-├── README.md                   # This file
-└── CHANGES_SUMMARY.md          # Recent changes documentation
+├── database/
+├── utils/
+├── requirements.txt
+└── README.md
 ```
 
 ---
 
-## 🚀 Installation
+## Installation
 
-### Prerequisites
+### 1. Clone the Repository
 
-- Python 3.9 or higher
-- MongoDB Atlas account (or local MongoDB)
-- OpenRouter API key ([Get one here](https://openrouter.ai/))
-
-### Step 1: Clone the Repository
-
-```bash
-git clone <repository-url>
-cd Heritage-Site-Virtual-Guide
+```
+git clone https://github.com/Indranil102/heritagevirtualapp.git
+cd heritagevirtualapp
 ```
 
-### Step 2: Create Virtual Environment
+### 2. Create Virtual Environment
 
-```bash
-# Create virtual environment
-python -m venv .venv
-
-# Activate virtual environment
-# On macOS/Linux:
-source .venv/bin/activate
-# On Windows:
-.venv\Scripts\activate
+```
+python -m venv venv
+source venv/bin/activate
 ```
 
-### Step 3: Install Backend Dependencies
+### 3. Install Dependencies
 
-```bash
-cd backend
+```
 pip install -r requirements.txt
 ```
 
-### Step 4: Install Frontend Dependencies
+### 4. Start the Server
 
-```bash
-cd ../frontend
-pip install -r ../requirements.txt
+```
+uvicorn app.main:app --reload
+```
+
+Server will run at:
+
+```
+http://127.0.0.1:8000
 ```
 
 ---
 
-## ⚙️ Configuration
+## API Workflow Example
 
-### Backend Configuration
+**Input:** Upload image of a heritage landmark
 
-Create a `.env` file in the `backend/` directory:
+**Processing:**
 
-```env
-# MongoDB Configuration
-MONGODB_USERNAME=your_mongodb_username
-MONGODB_PASSWORD=your_mongodb_password
-MONGODB_CLUSTER=your_cluster_name.mongodb.net
-MONGODB_DATABASE=heritage_db
+* Image preprocessing
+* Feature extraction
+* Landmark prediction
+* LLM-based description generation
 
-# OpenRouter AI Configuration
-OPENROUTER_KEY=your_openrouter_api_key
+**Output:**
+
 ```
-
-### Frontend Configuration
-
-The frontend automatically loads environment variables. You can also create a `.env` file in the root directory if needed.
-
-### Getting API Keys
-
-1. **OpenRouter API Key:**
-   - Visit [OpenRouter.ai](https://openrouter.ai/)
-   - Sign up for an account
-   - Navigate to Keys section
-   - Create a new API key
-   - Copy and paste into `.env` file
-
-2. **MongoDB Atlas:**
-   - Visit [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
-   - Create a free cluster
-   - Create a database user
-   - Get connection string
-   - Extract username, password, and cluster name
-
----
-
-## 🏃 Running the Application
-
-### Start Backend Server
-
-```bash
-cd backend
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-```
-
-The API will be available at: `http://localhost:8000`
-
-- API Documentation: `http://localhost:8000/docs`
-- Health Check: `http://localhost:8000/health`
-- Config Check: `http://localhost:8000/api/heritage/config-check`
-
-### Start Frontend Application
-
-Open a new terminal and run:
-
-```bash
-cd frontend
-streamlit run app.py
-```
-
-The application will open at: `http://localhost:8501`
-
----
-
-## 📡 API Documentation
-
-### Base URL
-```
-http://localhost:8000/api
-```
-
-### Endpoints
-
-#### 1. **Search Heritage Site**
-```http
-POST /heritage/search
-Content-Type: application/json
-
 {
-  "query": "Taj Mahal"
+  "site": "Taj Mahal",
+  "description": "The Taj Mahal is a UNESCO World Heritage Site located in Agra, India..."
 }
 ```
 
-**Response:**
-```json
-{
-  "success": true,
-  "result": "Name: Taj Mahal\nLocation: Agra, India\n..."
-}
-```
+---
 
-#### 2. **Upload and Analyze Image**
-```http
-POST /heritage/upload-image
-Content-Type: multipart/form-data
+## Model Pipeline
 
-file: [image file]
-```
+The AI pipeline integrates:
 
-**Response:**
-```json
-{
-  "success": true,
-  "result": "Name: [Monument Name]\nLocation: [Location]\n..."
-}
-```
+* Image preprocessing for normalization and consistency
+* Feature extraction using computer vision techniques
+* Landmark classification model
+* LLM-based contextual explanation generation
 
-#### 3. **Get Recommendations**
-```http
-GET /heritage/recommendations
-```
-
-**Response:**
-```json
-{
-  "sites": [
-    {
-      "name": "Taj Mahal",
-      "location": "Agra, India",
-      "description": "...",
-      "image_url": "/assets/images/taj-mahal.jpg"
-    }
-  ]
-}
-```
-
-#### 4. **Health Check**
-```http
-GET /health
-```
-
-#### 5. **Config Check**
-```http
-GET /heritage/config-check
-```
+This hybrid pipeline improves recognition consistency and produces informative outputs beyond simple classification.
 
 ---
 
-## 📖 Usage Guide
+## Future Improvements
 
-### For Users
-
-1. **Login/Signup**
-   - Create an account or login with existing credentials
-   - Your session will be saved
-
-2. **Search Heritage Sites**
-   - Go to the "🔍 Search" tab
-   - Enter the name of a heritage site
-   - Get instant comprehensive information
-
-3. **Upload Image**
-   - Go to the "🖼️ Upload Image" tab
-   - Upload a clear image of a heritage site
-   - Click "Analyze Heritage"
-   - Wait for AI analysis (10-20 seconds)
-   - View detailed monument information
-
-4. **Browse Featured Sites**
-   - Check the "🏠 Home" tab
-   - Browse recommended heritage sites
-   - Click on cards to learn more
-
-### For Developers
-
-#### Adding New Features
-
-1. **Backend:**
-   - Add new routes in `backend/app/routers/`
-   - Add business logic in `backend/app/services/`
-   - Update models in `backend/app/models/`
-
-2. **Frontend:**
-   - Create components in `frontend/components/`
-   - Update main app in `frontend/app.py`
-   - Add utilities in `frontend/utils/`
-
-#### Testing API
-
-Use the interactive API docs at `http://localhost:8000/docs` or use curl:
-
-```bash
-# Test search
-curl -X POST "http://localhost:8000/api/heritage/search" \
-  -H "Content-Type: application/json" \
-  -d '{"query": "Colosseum"}'
-
-# Test config
-curl "http://localhost:8000/api/heritage/config-check"
-```
+* Expand dataset coverage for more heritage sites
+* Add multilingual response generation
+* Integrate vector database for retrieval-augmented responses
+* Deploy cloud-based inference pipeline
+* Add frontend visualization dashboard
 
 ---
 
-## 🖼️ Screenshots
+## Author
 
-### Home Page
-- Beautiful dark theme interface
-- Featured heritage sites cards
-- Statistics dashboard
+**Indranil Samanta**
 
-### Search Functionality
-- Real-time heritage site search
-- Comprehensive information display
-- Formatted historical data
-
-### Image Analysis
-- Image upload interface
-- AI-powered monument recognition
-- Detailed analysis results
+* GitHub: [https://github.com/Indranil102](https://github.com/Indranil102)
+* LinkedIn: [https://linkedin.com/in/indranil](https://linkedin.com/in/indranil)
 
 ---
 
-## 🔧 Troubleshooting
+## License
 
-### Common Issues
-
-1. **"API key is not configured"**
-   - Check if `.env` file exists in `backend/` directory
-   - Verify `OPENROUTER_KEY` is set correctly
-   - Restart the backend server after adding the key
-
-2. **"Cannot connect to backend server"**
-   - Ensure backend is running on port 8000
-   - Check if port 8000 is available: `lsof -ti:8000`
-   - Kill existing process if needed: `kill -9 <PID>`
-
-3. **"MongoDB connection failed"**
-   - Verify MongoDB credentials in `.env`
-   - Check if MongoDB Atlas IP whitelist includes your IP
-   - Ensure cluster is running
-
-4. **Image analysis fails**
-   - Check backend logs for detailed error messages
-   - Verify API key has sufficient credits
-   - Try a different, clearer image
-   - Check `/api/heritage/config-check` endpoint
-
-### Debug Mode
-
-Enable detailed logging by checking backend terminal output. The application logs:
-- 🔄 Processing status
-- ✅ Success messages
-- ❌ Error details
-- ⚠️ Warnings
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-### Code Style
-- Follow PEP 8 for Python code
-- Use meaningful variable names
-- Add comments for complex logic
-- Update documentation for new features
-
----
-
-## 📝 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
----
-
-## 🙏 Acknowledgments
-
-- **OpenRouter** - For providing unified AI model access
-- **FastAPI** - For the excellent web framework
-- **Streamlit** - For rapid UI development
-- **MongoDB** - For database services
-- All the AI model providers (OpenAI, Anthropic, Google)
-
----
-
-## 📧 Contact
-
-For questions, issues, or suggestions, please open an issue on GitHub.
-
----
-
-## 🎯 Future Enhancements
-
-- [ ] Video analysis support
-- [ ] Multi-language support
-- [ ] User favorites and bookmarks
-- [ ] Social sharing features
-- [ ] AR/VR integration
-- [ ] Mobile app version
-- [ ] Advanced search filters
-- [ ] Historical timeline visualization
-- [ ] User reviews and ratings
-- [ ] Travel planning features
-
----
-
-**Made with ❤️ for heritage enthusiasts and history lovers**
+This project is developed for academic and research purposes. Extendable for production deployment with additional optimization and dataset scali
